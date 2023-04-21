@@ -327,7 +327,7 @@ initialize(void)
 		if ( (string = getenv("EF_ALIGNMENT")) != 0 )
 			EF_ALIGNMENT = (size_t)atoi(string);
 		else
-			EF_ALIGNMENT = sizeof(int);
+			EF_ALIGNMENT = 2 * sizeof (size_t);
 	}
 
 	/*
