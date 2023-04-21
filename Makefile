@@ -5,7 +5,7 @@ LIBS=
 prefix=/usr
 BIN_INSTALL_DIR= $(prefix)/bin
 LIB_INSTALL_DIR= $(prefix)/lib
-MAN_INSTALL_DIR= $(prefix)/man/man3
+MAN_INSTALL_DIR= $(prefix)/man
 
 CC= cc
 AR= ar
@@ -37,7 +37,8 @@ install: libefence.a efence.3 libefence.so.0.0
 	ln -s libefence.so.0.0 $(LIB_INSTALL_DIR)/libefence.so.0
 	- rm -f $(LIB_INSTALL_DIR)/libefence.so
 	ln -s libefence.so.0.0 $(LIB_INSTALL_DIR)/libefence.so
-	$(INSTALL) -m 644 efence.3 $(MAN_INSTALL_DIR)/efence.3
+	$(INSTALL) -m 644 efence.3 $(MAN_INSTALL_DIR)/man3/efence.3
+	$(INSTALL) -m 644 ef.1 $(MAN_INSTALL_DIR)/man1/ef.1
 
 clean:
 	- rm -f $(OBJECTS) tstheap.o eftest.o tstheap eftest \
