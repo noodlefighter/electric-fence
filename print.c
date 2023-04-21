@@ -111,7 +111,7 @@ EF_Printv(const char * pattern, va_list args)
 				break;
 			case 'c':
 				{
-					char	c = va_arg(args, char);
+					char	c = va_arg(args, int);
 					
 					(void) write(2, &c, 1);
 				}
