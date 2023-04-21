@@ -40,6 +40,10 @@ stringErrorReport(void)
 {
 #if ( defined(sgi) )
 	return strerror(oserror());
+#elif ( defined(__GLIBC__) )
+	static char buf[32];
+	snprintf(buf, sizeof(buf), "errno %d", errno);
+	return buf;
 #elif ( defined(_AIX) ) || ( defined(__linux) )
 	return strerror(errno);
 #else
