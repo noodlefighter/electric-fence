@@ -60,8 +60,8 @@ gotSegmentationFault(int (*test)(void))
 }
 
 static char *	allocation;
-/* c is global so that assignments to it won't be optimized out. */
-char	c;
+/* c is volatile global so that assignments to it won't be optimized out. */
+volatile char	c;
 
 static int
 testSizes(void)
