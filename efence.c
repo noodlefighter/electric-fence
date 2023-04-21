@@ -865,6 +865,41 @@ free(void * address)
 	release();
 }
 
+extern C_LINKAGE size_t
+malloc_usable_size(void * address)
+{
+	Slot *	slot;
+
+	lock();
+
+	if ( !noAllocationListProtection )
+		Page_AllowAccess(allocationList, allocationListSize);
+
+	slot = slotForUserAddress(address);
+
+	if ( !slot )
+		EF_Abort("free(%a): address not from malloc().", address);
+
+	if ( slot->mode != ALLOCATED ) {
+		if ( internalUse && slot->mode == INTERNAL_USE )
+			/* Do nothing. */;
+		else {
+			EF_Abort(
+			 "free(%a): malloc_usable_size on freed block."
+			,address);
+		}
+	}
+
+	size_t ret = slot->userSize;
+
+	if ( !noAllocationListProtection )
+		Page_DenyAccess(allocationList, allocationListSize);
+
+	release();
+
+	return ret;
+}
+
 extern C_LINKAGE void *
 realloc(void * oldBuffer, size_t newSize)
 {
