@@ -650,10 +650,7 @@ memalign(size_t alignment, size_t userSize)
 		address += internalSize - bytesPerPage;
 
 		/* Set up the "dead" page. */
-		if ( EF_PROTECT_FREE )
-			Page_Delete(address, bytesPerPage);
-		else
-			Page_DenyAccess(address, bytesPerPage);
+		Page_Delete(address, bytesPerPage);
 
 		/* Figure out what address to give the user. */
 		address -= userSize;
@@ -667,11 +664,8 @@ memalign(size_t alignment, size_t userSize)
 		address = (char *)fullSlot->internalAddress;
 
 		/* Set up the "dead" page. */
-		if ( EF_PROTECT_FREE )
-			Page_Delete(address, bytesPerPage);
-		else
-			Page_DenyAccess(address, bytesPerPage);
-			
+		Page_Delete(address, bytesPerPage);
+
 		address += bytesPerPage;
 
 		/* Set up the "live" page. */
@@ -801,10 +795,7 @@ free(void * address)
 	 * in the hope that the swap space attached to those pages will be
 	 * released as well.
 	 */
-	if ( EF_PROTECT_FREE )
-	    Page_Delete(slot->internalAddress, slot->internalSize);
-	else
-	    Page_DenyAccess(slot->internalAddress, slot->internalSize);
+	Page_Delete(slot->internalAddress, slot->internalSize);
 
 	previousSlot = slotForInternalAddressPreviousTo(slot->internalAddress);
 	nextSlot = slotForInternalAddress(

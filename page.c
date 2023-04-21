@@ -160,8 +160,9 @@ Page_DenyAccess(void * address, size_t size)
 void
 Page_Delete(void * address, size_t size)
 {
-	if ( munmap((caddr_t)address, size) < 0 )
-		Page_DenyAccess(address, size);
+	Page_DenyAccess(address, size);
+	/* Tell the kernel we will never need it again.  */
+	madvise(address, size, MADV_DONTNEED);
 }
 
 #if defined(_SC_PAGESIZE)
