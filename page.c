@@ -40,7 +40,7 @@ stringErrorReport(void)
 {
 #if ( defined(sgi) )
 	return strerror(oserror());
-#elif ( defined(_AIX) )
+#elif ( defined(_AIX) ) || ( defined(__linux) )
 	return strerror(errno);
 #else
 	if ( errno > 0 && errno < sys_nerr )
