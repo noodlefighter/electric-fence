@@ -70,7 +70,7 @@ Page_Create(size_t size)
 	 */
 	allocation = (caddr_t) mmap(
 	 startAddr
-	,(int)size
+	,size
 	,PROT_READ|PROT_WRITE
 	,MAP_PRIVATE|MAP_ANONYMOUS
 	,-1
@@ -122,7 +122,7 @@ Page_Create(size_t size)
 	 */
 	allocation = (caddr_t) mmap(
 	 startAddr
-	,(int)size
+	,size
 	,PROT_READ|PROT_WRITE
 	,MAP_PRIVATE
 	,devZeroFd
