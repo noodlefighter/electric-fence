@@ -47,7 +47,7 @@
 #undef	calloc
 #endif
 
-static const char	version[] = "\n  Electric Fence 2.2.0"
+static const char	version[] = "\n  Electric Fence 2.2.2"
  " Copyright (C) 1987-1999 Bruce Perens <bruce@perens.com>\n";
 
 /*
@@ -81,6 +81,13 @@ struct _Slot {
 	Mode		mode;
 };
 typedef struct _Slot	Slot;
+
+ /*
+ * EF_DISABLE_BANNER is a global variable used to control whether
+ * Electric Fence prints its usual startup message.  If the value is
+ * -1, it will be set from the environment default to 0 at run time.
+ */
+int		EF_DISABLE_BANNER = -1;
 
 /*
  * EF_ALIGNMENT is a global variable used to control the default alignment
@@ -280,7 +287,15 @@ initialize(void)
 	char *	string;
 	Slot *	slot;
 
-	EF_Print(version);
+	if ( EF_DISABLE_BANNER == -1 ) {
+		if ( (string = getenv("EF_DISABLE_BANNER")) != 0 )
+			EF_DISABLE_BANNER = atoi(string);
+		else
+			EF_DISABLE_BANNER = 0;
+	}
+
+	if ( EF_DISABLE_BANNER == 0 )
+		EF_Print(version);
 
 #ifdef USE_SEMAPHORE
 	if (sem_init != NULL && !pthread_initialization && sem_init(&EF_sem, 0, 1) >= 0) {
