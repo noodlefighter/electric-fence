@@ -16,6 +16,9 @@ PACKAGE_SOURCE= README efence.3 Makefile efence.h \
 
 OBJECTS= efence.o page.o print.o
 
+efence.o: override CFLAGS += -fno-builtin-malloc -fno-builtin-calloc \
+  -fno-builtin-valloc -fno-builtin-realloc -fno-builtin-free
+
 all:	libefence.a libefence.so.0.0 tstheap eftest
 	@ echo
 	@ echo "Testing Electric Fence."
