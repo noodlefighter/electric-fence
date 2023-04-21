@@ -174,6 +174,15 @@ static int		internalUse = 0;
 static int		noAllocationListProtection = 0;
 
 #ifdef USE_SEMAPHORE
+
+#include <stdbool.h>
+
+#pragma weak sem_init
+#pragma weak sem_post
+#pragma weak sem_wait
+
+static int		pthread_initialization = 0;
+
 /*
  * EF_sem is a semaphore used to allow one thread at a time into
  * these routines.
@@ -274,7 +283,7 @@ initialize(void)
 	EF_Print(version);
 
 #ifdef USE_SEMAPHORE
-	if (sem_init(&EF_sem, 0, 1) >= 0) {
+	if (sem_init != NULL && !pthread_initialization && sem_init(&EF_sem, 0, 1) >= 0) {
 		semEnabled = 1;
 	}
 #endif
@@ -396,6 +405,21 @@ initialize(void)
 
 	release();
 }
+
+#ifdef USE_SEMAPHORE
+void
+__libc_malloc_pthread_startup (bool first_time)
+{
+	if (first_time) {
+		pthread_initialization = 1;
+		initialize ();
+	} else {
+		pthread_initialization = 0;
+		if (!semEnabled && sem_init != NULL && sem_init(&EF_sem, 0, 1) >= 0)
+			semEnabled = 1;
+	}
+}
+#endif
 
 /*
  * allocateMoreSlots is called when there are only enough slot structures

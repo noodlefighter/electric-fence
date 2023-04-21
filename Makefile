@@ -1,6 +1,6 @@
 PIC= -fPIC
 CFLAGS= -g -DUSE_SEMAPHORE $(PIC)
-LIBS= -lpthread
+LIBS=
 
 prefix=/usr
 BIN_INSTALL_DIR= $(prefix)/bin
@@ -54,8 +54,8 @@ libefence.a: $(OBJECTS)
 	$(AR) crv libefence.a $(OBJECTS)
 
 libefence.so.0.0: $(OBJECTS)
-	gcc -g -shared -Wl,-soname,libefence.so.0 -o libefence.so.0.0 \
-		$(OBJECTS) -lpthread -lc 
+	gcc -shared -Wl,-soname,libefence.so.0 -o libefence.so.0.0 \
+		$(CFLAGS) $(OBJECTS) 
 
 tstheap: libefence.a tstheap.o
 	- rm -f tstheap
