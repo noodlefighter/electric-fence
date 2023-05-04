@@ -26,7 +26,7 @@ all:	libefence.a libefence.so.0.0 tstheap eftest
 	./eftest
 	./tstheap 3072
 	@ echo
-	@ echo "Electric Fence confidence test PASSED." 
+	@ echo "Electric Fence confidence test PASSED."
 	@ echo
 
 install: libefence.a efence.3 libefence.so.0.0
@@ -58,8 +58,8 @@ libefence.a: $(OBJECTS)
 	$(AR) crv libefence.a $(OBJECTS)
 
 libefence.so.0.0: $(OBJECTS)
-	gcc -shared -Wl,-soname,libefence.so.0 -o libefence.so.0.0 \
-		$(CFLAGS) $(OBJECTS) 
+	$(CC) -shared -Wl,-soname,libefence.so.0 -o libefence.so.0.0 \
+		$(CFLAGS) $(OBJECTS)
 
 tstheap: libefence.a tstheap.o
 	- rm -f tstheap
