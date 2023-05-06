@@ -878,14 +878,14 @@ malloc_usable_size(void * address)
 	slot = slotForUserAddress(address);
 
 	if ( !slot )
-		EF_Abort("free(%a): address not from malloc().", address);
+		EF_Abort("malloc_usable_size(%a): address not from malloc().", address);
 
 	if ( slot->mode != ALLOCATED ) {
 		if ( internalUse && slot->mode == INTERNAL_USE )
 			/* Do nothing. */;
 		else {
 			EF_Abort(
-			 "free(%a): malloc_usable_size on freed block."
+			 "malloc_usable_size(%a): malloc_usable_size on freed block."
 			,address);
 		}
 	}
