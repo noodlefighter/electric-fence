@@ -21,3 +21,11 @@ using the web form at http://lists.perens.com/mailman/listinfo/electric-fence.
 
 	Bruce Perens
 	bruce@perens.com
+
+
+
+
+
+Due to the fact that efence is too old, the few versions that I have found are not very usable. Therefore, I have decided to maintain my own codebase, apply existing patches from the community, and add some new features.
+
+by noodlefighter
